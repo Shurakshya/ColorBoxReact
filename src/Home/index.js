@@ -1,43 +1,109 @@
 import React, {Component} from 'react'
 import NavHome from './NavHome'
+import {Link} from 'react-router';
+import ColorDiv from './EachBox';
 
 class Home extends Component{
   constructor(props){
     super(props);
     this.state={
-      colorArray : ['red', 'black', 'blue', 'green']
+      colorsLists : [{
+        id : 0,
+        color:'red'
+      },{
+        id : 1,
+        color:'black'
+      },{
+        id : 2,
+        color:'blue'
+      },{
+        id : 3,
+        color:'green'
+      },{
+        id : 4,
+        color:'yellow'
+      },{
+        id : 5,
+        color:'brown'
+      }],
+      selectedColors: []
     }
   }
 
-  addColor=(colors)=> {
-    const prev = this.state.colorArray;
+  addColor=(color)=> {
+    const prev = this.state.colorsLists;
+    const currId = prev[prev.length -1].id;
+    let colors = {
+      id : currId+1,
+      color
+    }
     prev.push(colors);
     this.setState({
-      colorArray: prev
+      colorsLists: prev
     })
   }
 
+  renderColorDetail=(color)=>{
+    console.log(color);
+    this.props.router.push(`/color/${color}`);
+  }
+
   renderColor=()=>{
-    return this.state.colorArray.map((each,i) =>{
+    return this.state.colorsLists.map((each,i) =>{
       return(
-        <div className={"mainbox-col"} style={{backgroundColor: each}} key={i} />
+        <div className={"mainbox-col"} key={i}
+             style={{backgroundColor: each.color}}
+             onClick={()=>this.handleSelect(each)} >
+          <div className={"clickDiv"} onClick={()=>this.renderColorDetail(each.color)}>
+            Visit Me
+          </div>
+        </div>
       )
     })
   }
 
-  deleteColor=()=>{
-    const newArr = this.state.colorArray;
-    newArr.length >=1
-      ? newArr.pop()
-      : null
+  handleSelect=(each)=> {
+    const selected = this.state.selectedColors;
+    selected.push(each);
     this.setState({
-      colorsArray : newArr
+      selectedColors : selected
     })
   }
 
+  deleteColor=()=> {
+    let filteredArr= [];
+    let newArr = this.state.colorsLists;
+    const selected = this.state.selectedColors;
+    newArr.length >=1
+      ?
+        (
+          selected.length >=1
+            ?
+              (
+                filteredArr = newArr.filter((each) => {
+                  for (let s of selected) {
+                    if (s.id === each.id) {
+                      return false;
+                    }
+                  }
+                  return true
+                })
+              )
+            :
+              (
+                newArr.pop(),
+                filteredArr =newArr
+              )
+        )
+        : null
+    this.setState({
+      colorsLists: filteredArr,
+      selected: []
+    })
+  }
 
   render(){
-    const noOfBoxes = this.state.colorArray.length;
+    const noOfBoxes = this.state.colorsLists.length;
     return (
       <div>
         <NavHome addColor = {this.addColor} deleteColor = {this.deleteColor}/>
@@ -47,13 +113,13 @@ class Home extends Component{
           </div>
         </div>
         <div className={"footer"}>
-          <h2>There are
+          <h2>There
             {
               noOfBoxes ===1
                 ?
-                <span> {noOfBoxes} box. </span>
+                <span> is {noOfBoxes} box. </span>
                 :
-                <span> {noOfBoxes} boxes.</span>
+                <span> are {noOfBoxes} boxes.</span>
             }
           </h2>
         </div>

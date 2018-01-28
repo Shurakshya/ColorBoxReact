@@ -1,7 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import {Router, Route, browserHistory} from 'react-router';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import App from './Home';
+import colorDetail from './Detail';
+
+ReactDOM.render(
+  (
+    <Router history={browserHistory}>
+      <Route path={"/"} component={ App } />
+      <Route path={"/color/:colorName"} component={ colorDetail } />
+    </Router>
+  ),document.getElementById('root'));
 registerServiceWorker();

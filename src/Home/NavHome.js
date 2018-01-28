@@ -11,8 +11,8 @@ class Form extends Component{
     }
   }
 
-  addColor=(colors)=>{
-    this.props.addColor(colors);
+  addColor=(color)=>{
+    this.props.addColor(color);
     this.setState({
       addForm: false
     })
