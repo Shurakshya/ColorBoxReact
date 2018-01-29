@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
+
 import NavHome from './NavHome'
-import {Link} from 'react-router';
 import ColorDiv from './EachBox';
 
 class Home extends Component{
@@ -9,30 +9,24 @@ class Home extends Component{
     this.state={
       colorsLists : [{
         id : 0,
-        select:false,
         color:'red'
       },{
         id : 1,
-        select:false,
         color:'black'
       },{
         id : 2,
-        select:false,
         color:'blue'
       },{
         id : 3,
-        select:false,
         color:'green'
       },{
         id : 4,
-        select:false,
         color:'yellow'
       },{
         id : 5,
-        select:false,
         color:'brown'
       }],
-      selectedColors: [],
+      selectedColorsId: [],
       unselect : false
     }
   }
@@ -42,7 +36,6 @@ class Home extends Component{
     const currId = prev[prev.length -1].id;
     let colors = {
       id : currId+1,
-      select : false,
       color
     }
     prev.push(colors);
@@ -51,59 +44,30 @@ class Home extends Component{
     })
   }
 
-  renderColorDetail=(color)=>{
-    console.log(color);
-    this.props.router.push(`/color/${color}`);
-  }
-
-  renderColor=()=>{
-    return this.state.colorsLists.map((each,i) =>{
-      return(
-        <div className={"mainbox-col"} key={i}
-             style={{backgroundColor: each.color}}
-             onClick={(e)=>this.handleSelect(e,each)} >
-          <div className={"selectDiv"}>
-
-          </div>
-          <div className={"clickDiv"}  onClick={()=>this.renderColorDetail(each.color)}>
-            Visit Me
-          </div>
-        </div>
-      )
-    })
-  }
-
-  handleSelect=(e, each)=> {
-    const selected = this.state.selectedColors;
-    selected.push(each);
-    each.select = !each.select;
-    this.displaySelect(e,each);
+  handleSelect=(colorId)=> {
+    const selected = this.state.selectedColorsId;
+    if (selected.indexOf(colorId) === -1) {
+      selected.push(colorId);
+    }
+    else{
+      const index = selected.indexOf(colorId);
+      selected.splice(index,1);
+    }
     this.setState({
-      selectedColors: selected,
-      unselect: !this.state.unselect
+      selectedColorsId: selected
     })
   }
 
-  displaySelect=(e,each)=>{
-    each.select ?
-      (
-        console.log(each.select),
-        document.getElementsByClassName("selectDiv").innerHTML = "<span>Selected</span>"
-      )
-    :
-    null
-
-  }
   unSelect=()=>{
     this.setState({
-      selectedColors : []
+      selectedColorsId : []
     })
   }
 
   deleteColor=()=> {
     let filteredArr= [];
     let newArr = this.state.colorsLists;
-    const selected = this.state.selectedColors;
+    const selected = this.state.selectedColorsId;
     newArr.length >=1
       ?
         (
@@ -112,7 +76,7 @@ class Home extends Component{
               (
                 filteredArr = newArr.filter((each) => {
                   for (let s of selected) {
-                    if (s.id === each.id) {
+                    if (s === each.id) {
                       return false;
                     }
                   }
@@ -128,7 +92,7 @@ class Home extends Component{
         : null;
     this.setState({
       colorsLists: filteredArr,
-      selectedColors: []
+      selectedColorsId: []
     })
   }
 
@@ -139,12 +103,27 @@ class Home extends Component{
       <div>
         <NavHome addColor = {this.addColor}
                  deleteColor = {this.deleteColor}
-                 selectedColors={this.state.selectedColors}
+                 selectedColors={this.state.selectedColorsId}
                  unSelect ={this.unSelect}
         />
         <div className={"boxcontainer"}>
           <div className={"boxrow"}>
-            {this.renderColor()}
+            {
+               this.state.colorsLists.map((each,i) =>{
+                  return(
+                    <ColorDiv
+                      key={each.id}
+                      id={each.id}
+                      bgColor={each.color}
+                      selectedColor={this.state.selectedColorsId}
+                      selectColor={this.handleSelect}
+                      eachUnselect={this.eachUnselect}
+                      {...this.props}
+                    >
+                    </ColorDiv>
+                  )
+                })
+            }
           </div>
         </div>
         <div className={"footer"}>

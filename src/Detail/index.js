@@ -4,11 +4,9 @@ import './style.css';
 class ColorDetail extends  Component{
   constructor(props){
     super(props);
-  }
+    this.state={
 
-  componentWillMount(){
-    const color = this.props.params.colorName;
-    console.log(color);
+    }
   }
 
   changeColor=(e)=>{
@@ -17,14 +15,14 @@ class ColorDetail extends  Component{
   }
 
   render() {
-
+    const color = this.props.params.colorName;
     return (
       <div>
         <button onClick={this.changeColor}>Change Color </button>
         <br/><br/>
-        <div className={"jumbotronbasic"} style={{backgroundColor : 'red'}}>
+        <div className={"jumbotronbasic"} style={{backgroundColor :color}}>
         </div>
-        color detail : {'red'}
+        color detail : {color}
         <br/>
         <button onClick={()=>this.props.router.goBack()}>back</button>
       </div>
