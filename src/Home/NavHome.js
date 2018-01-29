@@ -33,6 +33,9 @@ class Form extends Component{
         addForm: !this.state.addForm
       })
   }
+  handleUnselect=()=>{
+    this.props.unSelect();
+  }
 
   render(){
     return (
@@ -51,6 +54,15 @@ class Form extends Component{
               <NavItem eventKey={2} onClick={this.deleteColor}>
                 Delete
               </NavItem>
+              {
+                this.props.selectedColors.length >=1
+                ? (
+                  <NavItem eventKey={3} onClick={this.handleUnselect}>
+                    UnSelect
+                  </NavItem>
+                  )
+                  : null
+              }
             </Nav>
           </Navbar.Collapse>
           {

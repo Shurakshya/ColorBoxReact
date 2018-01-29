@@ -9,24 +9,31 @@ class Home extends Component{
     this.state={
       colorsLists : [{
         id : 0,
+        select:false,
         color:'red'
       },{
         id : 1,
+        select:false,
         color:'black'
       },{
         id : 2,
+        select:false,
         color:'blue'
       },{
         id : 3,
+        select:false,
         color:'green'
       },{
         id : 4,
+        select:false,
         color:'yellow'
       },{
         id : 5,
+        select:false,
         color:'brown'
       }],
-      selectedColors: []
+      selectedColors: [],
+      unselect : false
     }
   }
 
@@ -35,6 +42,7 @@ class Home extends Component{
     const currId = prev[prev.length -1].id;
     let colors = {
       id : currId+1,
+      select : false,
       color
     }
     prev.push(colors);
@@ -53,8 +61,11 @@ class Home extends Component{
       return(
         <div className={"mainbox-col"} key={i}
              style={{backgroundColor: each.color}}
-             onClick={()=>this.handleSelect(each)} >
-          <div className={"clickDiv"} onClick={()=>this.renderColorDetail(each.color)}>
+             onClick={(e)=>this.handleSelect(e,each)} >
+          <div className={"selectDiv"}>
+
+          </div>
+          <div className={"clickDiv"}  onClick={()=>this.renderColorDetail(each.color)}>
             Visit Me
           </div>
         </div>
@@ -62,11 +73,30 @@ class Home extends Component{
     })
   }
 
-  handleSelect=(each)=> {
+  handleSelect=(e, each)=> {
     const selected = this.state.selectedColors;
     selected.push(each);
+    each.select = !each.select;
+    this.displaySelect(e,each);
     this.setState({
-      selectedColors : selected
+      selectedColors: selected,
+      unselect: !this.state.unselect
+    })
+  }
+
+  displaySelect=(e,each)=>{
+    each.select ?
+      (
+        console.log(each.select),
+        document.getElementsByClassName("selectDiv").innerHTML = "<span>Selected</span>"
+      )
+    :
+    null
+
+  }
+  unSelect=()=>{
+    this.setState({
+      selectedColors : []
     })
   }
 
@@ -95,18 +125,23 @@ class Home extends Component{
                 filteredArr =newArr
               )
         )
-        : null
+        : null;
     this.setState({
       colorsLists: filteredArr,
-      selected: []
+      selectedColors: []
     })
   }
+
 
   render(){
     const noOfBoxes = this.state.colorsLists.length;
     return (
       <div>
-        <NavHome addColor = {this.addColor} deleteColor = {this.deleteColor}/>
+        <NavHome addColor = {this.addColor}
+                 deleteColor = {this.deleteColor}
+                 selectedColors={this.state.selectedColors}
+                 unSelect ={this.unSelect}
+        />
         <div className={"boxcontainer"}>
           <div className={"boxrow"}>
             {this.renderColor()}
