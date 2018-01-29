@@ -20,12 +20,13 @@ class Form extends Component{
 
   deleteColor=(event)=>{
     event.preventDefault();
-    const selected = window.confirm('Are you sure you want to delete last color box?');
+    const selectedCount = this.props.selectedColors.length;
+    const selected = window.confirm(`Are you sure you want to delete ${selectedCount>=1 ? 'selected ('+selectedCount+') color boxes':'last color box'} ?`);
     selected
       ?
       this.props.deleteColor()
       :
-      null
+      this.handleUnselect();
   }
 
   toggleAddForm=()=>{
@@ -33,6 +34,7 @@ class Form extends Component{
         addForm: !this.state.addForm
       })
   }
+
   handleUnselect=()=>{
     this.props.unSelect();
   }

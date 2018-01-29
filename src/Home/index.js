@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 
 import NavHome from './NavHome'
 import ColorDiv from './EachBox';
+import './home.css';
 
 class Home extends Component{
   constructor(props){
@@ -26,8 +27,7 @@ class Home extends Component{
         id : 5,
         color:'brown'
       }],
-      selectedColorsId: [],
-      unselect : false
+      selectedColorsId: []
     }
   }
 
@@ -42,6 +42,7 @@ class Home extends Component{
     this.setState({
       colorsLists: prev
     })
+    this.unSelect();
   }
 
   handleSelect=(colorId)=> {
@@ -69,33 +70,31 @@ class Home extends Component{
     let newArr = this.state.colorsLists;
     const selected = this.state.selectedColorsId;
     newArr.length >=1
-      ?
-        (
-          selected.length >=1
-            ?
-              (
-                filteredArr = newArr.filter((each) => {
-                  for (let s of selected) {
-                    if (s === each.id) {
-                      return false;
-                    }
+      ?(
+        selected.length >=1
+          ?
+            (
+              filteredArr = newArr.filter((each) => {
+                for (let s of selected) {
+                  if (s === each.id) {
+                    return false;
                   }
-                  return true
-                })
-              )
-            :
-              (
-                newArr.pop(),
-                filteredArr =newArr
-              )
-        )
-        : null;
+                }
+                return true
+              })
+            )
+          :
+            (
+              newArr.pop(),
+              filteredArr =newArr
+            )
+      ):
+        null;
     this.setState({
       colorsLists: filteredArr,
-      selectedColorsId: []
+      selectedColorsId: [],
     })
   }
-
 
   render(){
     const noOfBoxes = this.state.colorsLists.length;
@@ -104,6 +103,7 @@ class Home extends Component{
         <NavHome addColor = {this.addColor}
                  deleteColor = {this.deleteColor}
                  selectedColors={this.state.selectedColorsId}
+                 deleteText = {this.state.deleteText}
                  unSelect ={this.unSelect}
         />
         <div className={"boxcontainer"}>
@@ -122,7 +122,7 @@ class Home extends Component{
                     >
                     </ColorDiv>
                   )
-                })
+               })
             }
           </div>
         </div>

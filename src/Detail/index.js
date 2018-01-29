@@ -1,30 +1,52 @@
 import React, {Component} from 'react';
-import './style.css';
+import {Navbar,Nav, NavItem } from 'react-bootstrap';
+
+import './detail.css';
+const {Header, Brand, Toggle} = Navbar;
 
 class ColorDetail extends  Component{
   constructor(props){
     super(props);
     this.state={
-
     }
   }
 
   changeColor=(e)=>{
     e.preventDefault();
-    console.log("color changed")
+
+  }
+
+  routePreference=()=>{
+    console.log(this.props);
   }
 
   render() {
     const color = this.props.params.colorName;
     return (
-      <div>
-        <button onClick={this.changeColor}>Change Color </button>
-        <br/><br/>
-        <div className={"jumbotronbasic"} style={{backgroundColor :color}}>
-        </div>
-        color detail : {color}
-        <br/>
-        <button onClick={()=>this.props.router.goBack()}>back</button>
+      <div className={"detailBox"}>
+        <Navbar>
+          <Header>
+            <Brand>
+              <span>Play With Color </span>
+            </Brand>
+            <Toggle />
+          </Header>
+          <Navbar.Collapse>
+            <Nav>
+              <NavItem eventKey={1} onClick={this.changeColor}>
+                Change Color
+              </NavItem>
+              <NavItem eventKey={2} onClick={()=>this.props.router.goBack()}>
+                Home
+              </NavItem>
+              <NavItem eventKey={3} onClick={this.routePreference}>
+                Preference
+              </NavItem>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+        <div className={"jumbotronbasic"} style={{backgroundColor :color}} />
+        <h2>The Color is {color}</h2>
       </div>
     )
   }
