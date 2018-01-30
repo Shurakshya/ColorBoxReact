@@ -2,28 +2,61 @@ import React, {Component} from 'react';
 import {Navbar,Nav, NavItem } from 'react-bootstrap';
 
 import './detail.css';
+import ChangeColorForm from './ChangeColorForm';
 const {Header, Brand, Toggle} = Navbar;
 
 class ColorDetail extends  Component{
   constructor(props){
     super(props);
     this.state={
+      toggleForm : false,
+      bgColor : ''
     }
   }
 
-  changeColor=(e)=>{
-
-
+  componentWillMount(){
+    const id = parseInt(this.props.params.id ,10 );
+    const  colorArray = JSON.parse(localStorage.getItem('colors')) || [{id,color:'red'}];
+    const object = colorArray.find((obj)=>{
+      return obj.id === id;
+    });
+    this.setState({
+      bgColor : object.color
+    })
   }
 
-  routePreference=()=>{
-    console.log(this.props);
+  changeColor=(color)=> {
+    const id = parseInt(this.props.params.id ,10 );
+    let colors=[];
+    this.setState({
+      bgColor :color
+    });
+    if(localStorage.getItem('colors').length>0){
+      colors = JSON.parse(localStorage.getItem('colors')).map(each=>{
+        if(each.id===id){
+          return {
+            id,
+            color
+          }
+        }else{
+          return each;
+        }
+      })
+    }
+    localStorage.setItem('colors',JSON.stringify(colors));
+  }
+
+  toggleForm=()=>{
+    this.setState({
+      toggleForm : !this.state.toggleForm
+    })
+  }
+
+  routePreference=(e)=>{
+    e.stopPropagation();
   }
 
   render() {
-    console.log("these are indes proeos",this.props)
-    const id = this.props.params.id;
-    const  color = localStorage.getItem(id);
     return (
       <div className={"detailBox"}>
         <Navbar>
@@ -35,7 +68,7 @@ class ColorDetail extends  Component{
           </Header>
           <Navbar.Collapse>
             <Nav>
-              <NavItem eventKey={1} onClick={this.changeColor}>
+              <NavItem eventKey={1} onClick={this.toggleForm}>
                 Change Color
               </NavItem>
               <NavItem eventKey={2} onClick={()=>this.props.router.goBack()}>
@@ -44,13 +77,26 @@ class ColorDetail extends  Component{
               <NavItem eventKey={3} onClick={this.routePreference}>
                 Preference
               </NavItem>
+              <li>
+                <a>
+                  {
+                    this.state.toggleForm
+                      ? <ChangeColorForm
+                          toggleForm={this.toggleForm}
+                          changeColor={this.changeColor}
+                        />
+                      : null
+                  }
+                </a>
+              </li>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <div className={"jumbotronbasic"} style={{backgroundColor :color}} />
-        <h2>The Color is {color}</h2>
+        <div className={"jumbotronbasic"} style={{backgroundColor : this.state.bgColor }} />
+        <h2>The Color is {this.state.bgColor}</h2>
       </div>
     )
   }
 }
+
 export default ColorDetail;

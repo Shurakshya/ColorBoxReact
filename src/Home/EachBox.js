@@ -5,9 +5,11 @@ const EachBox = ({id,bgColor,selectColor,selectedColor,...props}) =>{
     e.preventDefault();
     selectColor(color);
   }
+
   const renderColorDetail=(id)=>{
     props.router.push(`/color/${id}`)
   }
+
   return(
     <div
       className={"mainbox-col"}
@@ -27,4 +29,5 @@ const EachBox = ({id,bgColor,selectColor,selectedColor,...props}) =>{
     </div>
   )
 }
+
 export default EachBox;

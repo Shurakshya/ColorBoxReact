@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import _ from 'lodash';
 import NavHome from './NavHome'
 import ColorDiv from './EachBox';
 import './home.css';
@@ -34,20 +33,22 @@ class Home extends Component{
   componentWillMount(){
     const localStorageColors  = JSON.parse(localStorage.getItem('colors')) || [];
     const newArr = [];
-    if(localStorageColors.length > 0) {
-      for (let x  of localStorageColors) {
-        if (this.state.colorsLists.indexOf(x) === -1) {
-          console.log(x);
-          newArr.push(x);
+    if(localStorageColors.length > 0)
+      {
+        for (let x  of localStorageColors) {
+          if (this.state.colorsLists.indexOf(x) === -1)
+          {
+            newArr.push(x);
+          }
         }
+        this.setState({
+          colorsLists : newArr
+        })
       }
-      console.log(newArr);
-      this.setState({
-        colorsLists : newArr
-      })
-    }else{
-      localStorage.setItem('colors',JSON.stringify(this.state.colorsLists));
-    }
+    else
+      {
+        localStorage.setItem('colors',JSON.stringify(this.state.colorsLists));
+      }
   }
 
   addColor=(color)=> {
@@ -58,11 +59,10 @@ class Home extends Component{
       color
     };
     prev.push(colors);
-    /* persist state to localstorage */
+    /* persist state to local storage */
     const storageColor=JSON.parse(localStorage.getItem('colors'));
     storageColor.push(colors);
     localStorage.setItem('colors',JSON.stringify(storageColor));
-
     this.setState({
       colorsLists: prev
     });
@@ -71,13 +71,15 @@ class Home extends Component{
 
   handleSelect=(colorId)=> {
     const selected = this.state.selectedColorsId;
-    if (selected.indexOf(colorId) === -1) {
-      selected.push(colorId);
-    }
-    else{
-      const index = selected.indexOf(colorId);
-      selected.splice(index,1);
-    }
+    if (selected.indexOf(colorId) === -1)
+      {
+        selected.push(colorId);
+      }
+    else
+      {
+        const index = selected.indexOf(colorId);
+        selected.splice(index,1);
+      }
     this.setState({
       selectedColorsId: selected
     })
@@ -93,8 +95,7 @@ class Home extends Component{
     let filteredArr= [];
     let newArr = this.state.colorsLists;
     const selected = this.state.selectedColorsId;
-    newArr.length >=1
-      ?(
+    newArr.length >=1 ? (
         selected.length >=1
           ?
             (
@@ -122,6 +123,7 @@ class Home extends Component{
       selectedColorsId: [],
     })
   }
+
   removeItemFromLocalstorage=(colorId)=>{
     const storageColor=JSON.parse(localStorage.getItem('colors'));
     const filteredArr = storageColor.filter((each) => {

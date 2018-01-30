@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Navbar,Nav, NavItem } from 'react-bootstrap';
-import AddForm from './AddForm';
+
+import AddForm from './Modal';
 const {Header, Brand, Toggle} = Navbar;
 
 class Form extends Component{

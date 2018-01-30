@@ -6,7 +6,6 @@ class Preference extends Component{
       <div>hello I am preference</div>
     )
   }
-
 }
 
 export default Preference;
