@@ -12,7 +12,7 @@ class ColorDetail extends  Component{
   }
 
   changeColor=(e)=>{
-    e.preventDefault();
+
 
   }
 
@@ -21,7 +21,9 @@ class ColorDetail extends  Component{
   }
 
   render() {
-    const color = this.props.params.colorName;
+    console.log("these are indes proeos",this.props)
+    const id = this.props.params.id;
+    const  color = localStorage.getItem(id);
     return (
       <div className={"detailBox"}>
         <Navbar>

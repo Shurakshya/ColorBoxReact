@@ -11,7 +11,7 @@ ReactDOM.render(
   (
     <Router history={browserHistory}>
       <Route path={"/"} component={ App } />
-      <Route path={"/color/:colorName"} component={ ColorDetail } />
+      <Route path={"/color/:id"} component={ ColorDetail } />
       <Route path={"/preference/id/:colorId"} component={ Preference } />
     </Router>
   ),document.getElementById('root'));

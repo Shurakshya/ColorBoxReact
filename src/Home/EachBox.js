@@ -1,13 +1,12 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 const EachBox = ({id,bgColor,selectColor,selectedColor,...props}) =>{
   const colorSelected=(color,e)=>{
     e.preventDefault();
     selectColor(color);
   }
-  const renderColorDetail=(bgColor)=>{
-    props.router.push(`/color/${bgColor}`)
-    console.log(props);
+  const renderColorDetail=(id)=>{
+    props.router.push(`/color/${id}`)
   }
   return(
     <div
@@ -20,7 +19,7 @@ const EachBox = ({id,bgColor,selectColor,selectedColor,...props}) =>{
           (selectedColor.indexOf(id)>=0) ? "Selected" : null
         }
       </p>
-      <div className={"clickDiv"} onClick={()=>renderColorDetail(bgColor)}>
+      <div className={"clickDiv"} onClick={()=>renderColorDetail(id,bgColor)}>
         Visit Me
 
       </div>
