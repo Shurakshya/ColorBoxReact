@@ -35,7 +35,7 @@ class ColorDetail extends  Component{
       togglePreference : false,
       toggleForm : false
     });
-    if(localStorage.getItem('colors').length>0){
+    if(localStorage.getItem('colors') && localStorage.getItem('colors').length>0){
       colors = JSON.parse(localStorage.getItem('colors')).map(each=>{
         if(each.id===id){
           return {
@@ -59,7 +59,8 @@ class ColorDetail extends  Component{
   routePreference=(e)=>{
     e.preventDefault();
     this.setState({
-      togglePreference : !this.state.togglePreference
+      togglePreference : !this.state.togglePreference,
+      toggleForm : false
     })
 
   }
@@ -105,10 +106,12 @@ class ColorDetail extends  Component{
             (
               <Preference  currentColor = {this.state.bgColor}/>
             ) :
-          (
-            < div className = {"jumbotronbasic"} style={{backgroundColor : this.state.bgColor}} > </div>
-
-        )
+            (
+              <div>
+              <div className = {"jumbotronbasic"} style={{backgroundColor : this.state.bgColor}} > </div>
+                <h2> The color is {this.state.bgColor}.</h2>
+              </div>
+            )
           }
       </div>
     )

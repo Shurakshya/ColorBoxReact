@@ -1,10 +1,11 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './preference.css';
 
-class Preference extends Component{
-  getlocalStorageLength=()=>{
+const Preference =({currentColor})=>{
+
+   const getlocalStorageLength=()=>{
     let text ="";
-    const lengthArray = JSON.parse(localStorage.getItem("colors"));
+    const lengthArray = JSON.parse(localStorage.getItem("colors")) || [{}] ;
     const noOfBoxes = lengthArray.length;
     noOfBoxes ===1 ? (
       text = "There is " + noOfBoxes + " box."
@@ -14,12 +15,13 @@ class Preference extends Component{
     )
     return text;
   }
-  getColor=()=>{
+
+   const getColor=()=>{
     let color="";
-    this.props.currentColor
+    currentColor
       ?
         (
-        color = this.props.currentColor
+        color = currentColor
         )
       :
         (
@@ -28,15 +30,13 @@ class Preference extends Component{
     return color;
   }
 
-  render(){
-    return(
+  return(
       <div className={"preference"}>
         <h1>User Preferences</h1>
-        <h2 style={{color : this.getColor() }}> Current Color is {this.getColor()} </h2>
-        <h4>{this.getlocalStorageLength()}</h4>
+        <h2 style={{color : getColor() }}> Current Color is {getColor()} </h2>
+        <h4>{getlocalStorageLength()}</h4>
       </div>
     )
-  }
 }
 
 export default Preference;

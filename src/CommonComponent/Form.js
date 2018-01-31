@@ -1,9 +1,9 @@
-import React from 'react';
+import React,{Component} from 'react';
 import { Button } from 'react-bootstrap';
 
 const inlineStyle={display : 'inline-block',marginLeft:5};
 
-class Form  extends  React.Component{
+class Form  extends Component{
   render() {
     const {sendNewColor, handleClose, handleColorChange, inlineForm} = this.props;
     return (

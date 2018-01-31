@@ -15,6 +15,16 @@
     overflow: hidden;
 }
 
+.boxrow{
+     background-color: #e7e7e7;
+     overflow: hidden;
+     overflow-y: scroll;
+     height:auto;
+     min-height: 450px;
+     margin-bottom: 120px;
+     padding-bottom: 10px;
+}
+
 .ribbon {
     margin: 0;
     background: rebeccapurple;
@@ -69,16 +79,6 @@
     position:fixed;
     width: 100%;
     text-align: center;
-}
-
-.boxrow{
-    background-color: #e7e7e7;
-    overflow: hidden;
-    overflow-y: scroll;
-    height:auto;
-    min-height: 450px;
-    margin-bottom: 120px;
-    padding-bottom: 10px;
 }
 
 @media only screen and (max-width: 768px) {
