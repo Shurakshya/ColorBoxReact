@@ -3,6 +3,7 @@ import {Navbar,Nav, NavItem } from 'react-bootstrap';
 
 import './detail.css';
 import ChangeColorForm from './ChangeColorForm';
+import Preference from "../Preferences";
 const {Header, Brand, Toggle} = Navbar;
 
 class ColorDetail extends  Component{
@@ -10,7 +11,8 @@ class ColorDetail extends  Component{
     super(props);
     this.state={
       toggleForm : false,
-      bgColor : ''
+      bgColor : '',
+      togglePreference : false
     }
   }
 
@@ -21,7 +23,7 @@ class ColorDetail extends  Component{
       return obj.id === id;
     });
     this.setState({
-      bgColor : object.color
+      bgColor : object.color,
     })
   }
 
@@ -29,7 +31,9 @@ class ColorDetail extends  Component{
     const id = parseInt(this.props.params.id ,10 );
     let colors=[];
     this.setState({
-      bgColor :color
+      bgColor :color,
+      togglePreference : false,
+      toggleForm : false
     });
     if(localStorage.getItem('colors').length>0){
       colors = JSON.parse(localStorage.getItem('colors')).map(each=>{
@@ -53,7 +57,11 @@ class ColorDetail extends  Component{
   }
 
   routePreference=(e)=>{
-    e.stopPropagation();
+    e.preventDefault();
+    this.setState({
+      togglePreference : !this.state.togglePreference
+    })
+
   }
 
   render() {
@@ -92,8 +100,16 @@ class ColorDetail extends  Component{
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <div className={"jumbotronbasic"} style={{backgroundColor : this.state.bgColor }} />
-        <h2>The Color is {this.state.bgColor}</h2>
+        {this.state.togglePreference
+          ?
+            (
+              <Preference  currentColor = {this.state.bgColor}/>
+            ) :
+          (
+            < div className = {"jumbotronbasic"} style={{backgroundColor : this.state.bgColor}} > </div>
+
+        )
+          }
       </div>
     )
   }
